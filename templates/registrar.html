@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registrar objeto | UAM</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/imagenes.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="logo">
+            <div class="logo-circle">UAM</div>
+            <span>Universidad Americana</span>
+        </div>
+
+        <div class="topbar-actions">
+            <a href="{{ url_for('admin') }}" class="btn btn-back">
+                ← Panel administrativo
+            </a>
+        </div>
+
+    </header>
+
+
+    <main class="container registrar-page">
+
+        <section class="page-header registrar-header">
+
+            <p class="eyebrow">PANEL ADMINISTRATIVO</p>
+
+            <h1>Registrar objeto</h1>
+
+            <p>
+                Registra la información del objeto encontrado para
+                incorporarlo al sistema.
+            </p>
+
+        </section>
+
+
+        <form
+            action="{{ url_for('registrar') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="register-form"
+
+{% if error %}
+    <div class="message error">
+        {{ error }}
+    </div>
+{% endif %}
+        >
+
+            <section class="image-upload-section">
+
+                <label for="imagen" class="image-upload-box" id="imageUploadBox">
+
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        accept="image/png,image/jpeg,image/webp"
+                    >
+
+                    <div class="image-upload-content" id="imageUploadContent">
+
+                        <div class="image-upload-icon">+</div>
+
+                        <strong>Añadir imagen</strong>
+
+                        <span>
+                            Opcional. Formatos JPG, PNG o WEBP.
+                        </span>
+
+                    </div>
+
+                    <img
+                        id="imagePreview"
+                        class="image-preview"
+                        src=""
+                        alt="Vista previa de la imagen"
+                    >
+
+                </label>
+
+            </section>
+
+
+            <section class="panel register-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <p class="eyebrow">INFORMACIÓN DEL OBJETO</p>
+                        <h2>Datos del objeto</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group full-width">
+
+                        <label for="nombre">
+                            Nombre del objeto
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Ej. Audífonos Sony"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="categoria">
+                            Categoría
+                        </label>
+
+                        <select
+                            id="categoria"
+                            name="categoria"
+                            required
+                        >
+
+                            <option value="" disabled selected>
+                                Selecciona una categoría
+                            </option>
+
+                            <option value="Electrónicos">
+                                Electrónicos
+                            </option>
+
+                            <option value="Documentos">
+                                Documentos
+                            </option>
+
+                            <option value="Accesorios personales">
+                                Accesorios personales
+                            </option>
+
+                            <option value="Ropa">
+                                Ropa
+                            </option>
+
+                            <option value="Material académico">
+                                Material académico
+                            </option>
+
+                            <option value="Otros">
+                                Otros
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="fecha">
+                            Fecha de hallazgo
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fecha"
+                            name="fecha"
+                            required
+                        >
+
+                        <small>
+                            Selecciona la fecha en que fue encontrado el objeto.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="hora">
+                            Hora de hallazgo
+                        </label>
+
+                        <input
+                            type="time"
+                            id="hora"
+                            name="hora"
+                            required
+                        >
+
+                        <small>
+                            Indica aproximadamente a qué hora fue encontrado.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="lugar">
+                            Lugar de hallazgo
+                        </label>
+
+                        <select
+                            id="lugar"
+                            name="lugar"
+                            required
+                        >
+
+                            <option value="" disabled selected>
+                                Selecciona un lugar
+                            </option>
+
+                            <option value="Edificio A">Edificio A</option>
+                            <option value="Edificio B">Edificio B</option>
+                            <option value="Edificio C">Edificio C</option>
+                            <option value="Edificio D">Edificio D</option>
+                            <option value="Edificio E">Edificio E</option>
+                            <option value="Edificio F">Edificio F</option>
+                            <option value="Edificio G">Edificio G</option>
+                            <option value="Edificio H">Edificio H</option>
+                            <option value="Edificio I">Edificio I</option>
+                            <option value="Edificio J">Edificio J</option>
+                            <option value="Edificio K">Edificio K</option>
+                            <option value="Edificio O">Edificio O</option>
+                            <option value="Edificio P">Edificio P</option>
+
+                            <option value="Food Court">
+                                Food Court
+                            </option>
+
+                            <option value="Ranchito">
+                                Ranchito
+                            </option>
+
+                            <option value="Jugar">
+                                Jugar
+                            </option>
+
+                            <option value="Gimnasio">
+                                Gimnasio
+                            </option>
+
+                            <option value="Estadio de béisbol">
+                                Estadio de béisbol
+                            </option>
+
+                            <option value="La bahía">
+                                La bahía
+                            </option>
+
+                            <option value="Estacionamientos">
+                                Estacionamientos
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="descripcion">
+                            Características del objeto
+                        </label>
+
+                        <textarea
+                            id="descripcion"
+                            name="descripcion"
+                            rows="5"
+                            placeholder="Describe las características visuales del objeto..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="estado">
+                            Selecciona el estado del objeto
+                        </label>
+
+                        <select
+                            id="estado"
+                            name="estado"
+                            required
+                        >
+
+                            <option value="Disponible">
+                                Disponible
+                            </option>
+
+                            <option value="Solicitado">
+                                Solicitado
+                            </option>
+
+                            <option value="Entregado">
+                                Entregado
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <a
+                        href="{{ url_for('admin') }}"
+                        class="btn btn-secondary"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Registrar
+                    </button>
+
+                </div>
+
+            </section>
+
+        </form>
+
+    </main>
+
+
+    <script>
+
+        const imagenInput = document.getElementById("imagen");
+        const imagePreview = document.getElementById("imagePreview");
+        const imageUploadContent = document.getElementById("imageUploadContent");
+
+        imagenInput.addEventListener("change", function () {
+
+            const archivo = this.files[0];
+
+            if (!archivo) {
+                imagePreview.style.display = "none";
+                imagePreview.src = "";
+                imageUploadContent.style.display = "flex";
+                return;
+            }
+
+            const lector = new FileReader();
+
+            lector.onload = function (evento) {
+
+                imagePreview.src = evento.target.result;
+                imagePreview.style.display = "block";
+                imageUploadContent.style.display = "none";
+
+            };
+
+            lector.readAsDataURL(archivo);
+
+        });
+
+    </script>
+
+</body>
+
+</html>

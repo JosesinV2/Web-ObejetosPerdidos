@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Solicitar recuperación | UAM</title>
+
+    {% if errores %}
+
+<div class="message error">
+
+    {% for error in errores %}
+
+        <p>{{ error }}</p>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/imagenes.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="logo">
+
+            <div class="logo-circle">
+                UAM
+            </div>
+
+            <div>
+                <strong>
+                    Objetos Perdidos
+                </strong>
+
+                <span>
+                    Universidad Americana
+                </span>
+            </div>
+
+        </div>
+
+        <a
+            href="{{ url_for('buscar') }}"
+            class="btn btn-back"
+        >
+            ← Volver
+        </a>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <span class="eyebrow">
+                RECUPERACIÓN
+            </span>
+
+            <h1>
+                Solicitar la recuperación del objeto
+            </h1>
+
+            <p>
+                Completa los apartados con tus datos para
+                solicitar la recuperación del objeto encontrado.
+            </p>
+
+        </section>
+
+
+        <section class="object-request-card">
+
+            <div class="object-request-image">
+
+                {% if objeto.imagen %}
+
+                    <img
+                        src="{{ url_for('static', filename=objeto.imagen) }}"
+                        alt="{{ objeto.nombre }}"
+                    >
+
+                {% else %}
+
+                    <span>
+                        Objeto
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="object-request-info">
+
+                <span class="object-category">
+                    {{ objeto.categoria }}
+                </span>
+
+                <h2>
+                    {{ objeto.nombre }}
+                </h2>
+
+                <p>
+                    {{ objeto.descripcion }}
+                </p>
+
+                <div class="object-details">
+
+                    <span>
+                        Fecha del hallazgo: {{ objeto.fecha }}
+                    </span>
+
+                    <span>
+                        Hora del hallazgo: {{ objeto.hora }}
+                    </span>
+
+                    <span>
+                        Lugar: {{ objeto.lugar }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    Datos del estudiante
+                </h2>
+
+                <p>
+                    Esta información será utilizada para gestionar
+                    la entrega del objeto.
+                </p>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('solicitar', id=objeto.id) }}"
+                method="POST"
+                class="form-grid"
+            >
+
+                <div class="form-group full-width">
+
+                    <label for="nombre">
+                        Nombre completo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Ingresa tu nombre completo"
+                        required
+                    >
+
+                </div>
+
+
+                
+                        
+                <div class="form-group">
+
+                    <label for="cif">CIF</label>
+
+                    <input
+                        type="text"
+                        id="cif"
+                        name="cif"
+                        maxlength="8"
+                        minlength="8"
+                        inputmode="numeric"
+                        pattern="[0-9]{8}"
+                        required
+                    >
+
+                    {% if error_cif %}
+                        <span class="form-error">
+                            {{ error_cif }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </form>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="correo">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="correo"
+                        name="correo"
+                        placeholder="correo@ejemplo.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="telefono">Teléfono</label>
+
+                    <input
+                        type="text"
+                        id="telefono"
+                        name="telefono"
+                        maxlength="8"
+                        minlength="8"
+                        inputmode="numeric"
+                        pattern="[0-9]{8}"
+                        required
+                    >
+
+                    {% if error_telefono %}
+                        <span class="form-error">
+                            {{ error_telefono }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                {% if error_correo %}
+                    <span class="form-error">
+                        {{ error_correo }}
+                    </span>
+                {% endif %}
+
+            </div>
+
+                <div class="form-group">
+
+                    <label for="fecha_recogida">
+                        Fecha para recoger
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha_recogida"
+                        name="fecha_recogida"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hora_recogida">
+                        Hora para recoger
+                    </label>
+
+                    <input
+                        type="time"
+                        id="hora_recogida"
+                        name="hora_recogida"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-check full-width">
+
+                    <input
+                        type="checkbox"
+                        id="confirmacion"
+                        required
+                    >
+
+                    <label for="confirmacion">
+                        Confirmo que la información proporcionada
+                        es correcta y que puedo demostrar que el
+                        objeto me pertenece al momento de recogerlo.
+                    </label>
+
+                </div>
+
+
+                <div class="form-actions full-width">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Enviar solicitud
+                    </button>
+
+                    <a
+                        href="{{ url_for('buscar') }}"
+                        class="btn btn-back"
+                    >
+                        ← Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script
+        src="{{ url_for('static', filename='js/scripts.js') }}"
+    ></script>
+
+</body>
+
+</html>

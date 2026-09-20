@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "objeto_id": 1,
+        "nombre": "chepin chepon",
+        "cif": "9370243",
+        "correo": "jose@uamv",
+        "telefono": "12398933",
+        "fecha_recogida": "2026-10-19",
+        "hora_recogida": "15:00",
+        "estado": "Entregada",
+        "fecha_solicitud": "2026-09-19"
+    },
+    {
+        "id": 2,
+        "objeto_id": 1,
+        "nombre": "Maykel Cruz zamora",
+        "cif": "25015110",
+        "correo": "maykel@uamedu.ni",
+        "telefono": "26718273",
+        "fecha_recogida": "2026-09-19",
+        "hora_recogida": "02:48",
+        "estado": "Rechazada",
+        "fecha_solicitud": "2026-09-19"
+    }
+]

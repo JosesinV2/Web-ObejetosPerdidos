@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Editar objeto | UAM</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/imagenes.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="logo">
+
+            <div class="logo-circle">
+                UAM
+            </div>
+
+            <div>
+                <strong>
+                    Objetos Perdidos
+                </strong>
+
+                <span>
+                    Editar objeto
+                </span>
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('admin') }}"
+            class="btn btn-back"
+        >
+            ← Volver
+        </a>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <span class="eyebrow">
+                ADMINISTRACIÓN
+            </span>
+
+            <h1>
+                Editar objeto
+            </h1>
+
+            <p>
+                Modifica la información del objeto registrado.
+            </p>
+
+        </section>
+
+
+        <section class="panel">
+
+            <form
+                action="{{ url_for('editar', id=objeto.id) }}"
+                method="POST"
+                enctype="multipart/form-data"
+                class="form-grid"
+            >
+
+                <div class="form-group full-width">
+
+                    <label for="nombre">
+                        Nombre del objeto
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        value="{{ objeto.nombre }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="categoria">
+                        Categoría
+                    </label>
+
+                    <select
+                        id="categoria"
+                        name="categoria"
+                        required
+                    >
+
+                        <option value="Electrónicos"
+                            {% if objeto.categoria == "Electrónicos" %}selected{% endif %}>
+                            Electrónicos
+                        </option>
+
+                        <option value="Documentos"
+                            {% if objeto.categoria == "Documentos" %}selected{% endif %}>
+                            Documentos
+                        </option>
+
+                        <option value="Accesorios personales"
+                            {% if objeto.categoria == "Accesorios personales" %}selected{% endif %}>
+                            Accesorios personales
+                        </option>
+
+                        <option value="Ropa"
+                            {% if objeto.categoria == "Ropa" %}selected{% endif %}>
+                            Ropa
+                        </option>
+
+                        <option value="Material académico"
+                            {% if objeto.categoria == "Material académico" %}selected{% endif %}>
+                            Material académico
+                        </option>
+
+                        <option value="Otros"
+                            {% if objeto.categoria == "Otros" %}selected{% endif %}>
+                            Otros
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="estado">
+                        Estado
+                    </label>
+
+                    <select
+                        id="estado"
+                        name="estado"
+                        required
+                    >
+
+                        <option value="Disponible"
+                            {% if objeto.estado == "Disponible" %}selected{% endif %}>
+                            Disponible
+                        </option>
+
+                        <option value="Solicitado"
+                            {% if objeto.estado == "Solicitado" %}selected{% endif %}>
+                            Solicitado
+                        </option>
+
+                        <option value="Entregado"
+                            {% if objeto.estado == "Entregado" %}selected{% endif %}>
+                            Entregado
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="fecha">
+                        📅 Fecha del hallazgo
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha"
+                        name="fecha"
+                        value="{{ objeto.fecha }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="hora">
+                        🕐 Hora del hallazgo
+                    </label>
+
+                    <input
+                        type="time"
+                        id="hora"
+                        name="hora"
+                        value="{{ objeto.hora }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="lugar">
+                        📍 Lugar
+                    </label>
+
+                    <select
+                        id="lugar"
+                        name="lugar"
+                        required
+                    >
+
+                        <option value="Edificio A"
+                            {% if objeto.lugar == "Edificio A" %}selected{% endif %}>
+                            Edificio A
+                        </option>
+
+                        <option value="Edificio B"
+                            {% if objeto.lugar == "Edificio B" %}selected{% endif %}>
+                            Edificio B
+                        </option>
+
+                        <option value="Edificio C"
+                            {% if objeto.lugar == "Edificio C" %}selected{% endif %}>
+                            Edificio C
+                        </option>
+
+                        <option value="Edificio D"
+                            {% if objeto.lugar == "Edificio D" %}selected{% endif %}>
+                            Edificio D
+                        </option>
+
+                        <option value="Edificio E"
+                            {% if objeto.lugar == "Edificio E" %}selected{% endif %}>
+                            Edificio E
+                        </option>
+
+                        <option value="Edificio F"
+                            {% if objeto.lugar == "Edificio F" %}selected{% endif %}>
+                            Edificio F
+                        </option>
+
+                        <option value="Edificio G"
+                            {% if objeto.lugar == "Edificio G" %}selected{% endif %}>
+                            Edificio G
+                        </option>
+
+                        <option value="Edificio H"
+                            {% if objeto.lugar == "Edificio H" %}selected{% endif %}>
+                            Edificio H
+                        </option>
+
+                        <option value="Edificio I"
+                            {% if objeto.lugar == "Edificio I" %}selected{% endif %}>
+                            Edificio I
+                        </option>
+
+                        <option value="Edificio J"
+                            {% if objeto.lugar == "Edificio J" %}selected{% endif %}>
+                            Edificio J
+                        </option>
+
+                        <option value="Edificio K"
+                            {% if objeto.lugar == "Edificio K" %}selected{% endif %}>
+                            Edificio K
+                        </option>
+
+                        <option value="Edificio O"
+                            {% if objeto.lugar == "Edificio O" %}selected{% endif %}>
+                            Edificio O
+                        </option>
+
+                        <option value="Edificio P"
+                            {% if objeto.lugar == "Edificio P" %}selected{% endif %}>
+                            Edificio P
+                        </option>
+
+                        <option value="Food Court"
+                            {% if objeto.lugar == "Food Court" %}selected{% endif %}>
+                            Food Court
+                        </option>
+
+                        <option value="Ranchito"
+                            {% if objeto.lugar == "Ranchito" %}selected{% endif %}>
+                            Ranchito
+                        </option>
+
+                        <option value="Jugar"
+                            {% if objeto.lugar == "Jugar" %}selected{% endif %}>
+                            Jugar
+                        </option>
+
+                        <option value="Gimnasio"
+                            {% if objeto.lugar == "Gimnasio" %}selected{% endif %}>
+                            Gimnasio
+                        </option>
+
+                        <option value="Estadio de béisbol"
+                            {% if objeto.lugar == "Estadio de béisbol" %}selected{% endif %}>
+                            Estadio de béisbol
+                        </option>
+
+                        <option value="La bahía"
+                            {% if objeto.lugar == "La bahía" %}selected{% endif %}>
+                            La bahía
+                        </option>
+
+                        <option value="Estacionamientos"
+                            {% if objeto.lugar == "Estacionamientos" %}selected{% endif %}>
+                            Estacionamientos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="descripcion">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        rows="5"
+                        required
+                    >{{ objeto.descripcion }}</textarea>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="imagen">
+                        📷 Nueva fotografía
+                    </label>
+
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        accept="image/*"
+                    >
+
+                    <small class="form-help">
+                        Puedes dejarlo vacío para conservar la actual.
+                    </small>
+
+                </div>
+
+
+                <div class="form-actions full-width">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Guardar cambios
+                    </button>
+
+                    <a
+                        href="{{ url_for('admin') }}"
+                        class="btn btn-back"
+                    >
+                        ← Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script
+        src="{{ url_for('static', filename='js/scripts.js') }}"
+    ></script>
+
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Objetos Perdidos | UAM</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/imagenes.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="home">
+
+        <section class="home-content">
+
+            <div class="logo-main">
+                UAM
+            </div>
+
+            <span class="eyebrow">
+                UNIVERSIDAD AMERICANA
+            </span>
+
+            <h1>
+                Sistema de Objetos Perdidos
+            </h1>
+
+            <p>
+                Selecciona cómo deseas ingresar al sistema.
+            </p>
+
+
+            <div class="role-grid">
+
+                <a
+                    href="{{ url_for('buscar') }}"
+                    class="role-card"
+                >
+
+                    <div class="role-icon">
+                        🎓
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Estudiante
+                        </h2>
+
+                        <p>
+                            Consulta los objetos encontrados
+                            y solicita su recuperación.
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="role-card"
+                >
+
+                    <div class="role-icon">
+                        🛠️
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Personal / Administrador
+                        </h2>
+
+                        <p>
+                            Administra objetos y solicitudes
+                            de recuperación.
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

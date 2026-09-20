@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel administrativo | UAM</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/imagenes.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="logo">
+
+            <div class="logo-circle">
+                UAM
+            </div>
+
+            <div>
+                <strong>Objetos Perdidos</strong>
+                <span>Panel administrativo</span>
+            </div>
+
+        </div>
+
+
+        <div class="topbar-actions">
+
+            <a
+                href="{{ url_for('registrar') }}"
+                class="btn btn-primary"
+            >
+                + Registrar objeto
+            </a>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="btn btn-secondary"
+            >
+                Cerrar sesión
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <span class="eyebrow">
+                ADMINISTRACIÓN
+            </span>
+
+            <h1>
+                Panel de control
+            </h1>
+
+            <p>
+                Gestiona los objetos encontrados y las solicitudes
+                de recuperación.
+            </p>
+
+        </section>
+
+
+        <!-- ESTADÍSTICAS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Total de objetos
+                </span>
+
+                <strong class="stat-number">
+                    {{ total }}
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Disponibles
+                </span>
+
+                <strong class="stat-number">
+                    {{ disponibles }}
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Solicitados
+                </span>
+
+                <strong class="stat-number">
+                    {{ solicitados }}
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Entregados
+                </span>
+
+                <strong class="stat-number">
+                    {{ entregados }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- OBJETOS -->
+
+        <section class="panel">
+
+            <div class="panel-header admin-panel-header">
+
+                <div>
+
+                    <h2>
+                        Objetos registrados
+                    </h2>
+
+                    <p>
+                        Consulta y administra los objetos encontrados.
+                    </p>
+
+                </div>
+
+                <span class="results-count">
+                    {{ objetos|length }} registros
+                </span>
+
+            </div>
+
+
+            {% if objetos %}
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Objeto
+                                </th>
+
+                                <th>
+                                    Categoría
+                                </th>
+
+                                <th>
+                                    Fecha
+                                </th>
+
+                                <th>
+                                    Lugar
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                                <th>
+                                    Acciones
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for objeto in objetos %}
+
+                                <tr>
+
+                                    <td>
+                                        #{{ objeto.id }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ objeto.nombre }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ objeto.categoria }}
+                                    </td>
+
+                                    <td>
+                                        {{ objeto.fecha }}
+                                        <br>
+                                        <small>
+                                            {{ objeto.hora }}
+                                        </small>
+                                    </td>
+
+                                    <td>
+                                        {{ objeto.lugar }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if objeto.estado == "Disponible" %}
+
+                                            <span class="status status-available">
+                                                Disponible
+                                            </span>
+
+                                        {% elif objeto.estado == "Solicitado" %}
+
+                                            <span class="status status-requested">
+                                                Solicitado
+                                            </span>
+
+                                        {% elif objeto.estado == "Entregado" %}
+
+                                            <span class="status status-delivered">
+                                                Entregado
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="table-actions">
+
+                                            <a
+                                                href="{{ url_for('editar', id=objeto.id) }}"
+                                                class="btn btn-small btn-secondary"
+                                            >
+                                                Editar
+                                            </a>
+
+                                            <a
+                                                href="{{ url_for('eliminar', id=objeto.id) }}"
+                                                class="btn btn-small btn-danger eliminar"
+                                            >
+                                                Eliminar
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📦
+                    </div>
+
+                    <h3>
+                        No hay objetos registrados
+                    </h3>
+
+                    <p>
+                        Comienza registrando el primer objeto encontrado.
+                    </p>
+
+                    <a
+                        href="{{ url_for('registrar') }}"
+                        class="btn btn-primary"
+                    >
+                        Registrar objeto
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- SOLICITUDES -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    Solicitudes de recuperación
+                </h2>
+
+                <p>
+                    Hay
+                    <strong>{{ solicitudes_pendientes }}</strong>
+                    solicitudes pendientes.
+                </p>
+
+            </div>
+
+
+            {% if solicitudes %}
+
+                <div class="request-list">
+
+                    {% for solicitud in solicitudes %}
+
+                       <div class="request-card">
+
+    <div class="request-information">
+
+        <span class="request-id">
+            Solicitud #{{ solicitud.id }}
+        </span>
+
+        <h3>
+            {{ solicitud.nombre }}
+        </h3>
+
+        <p>
+            CIF: {{ solicitud.cif }}
+        </p>
+
+        <p>
+            Correo: {{ solicitud.correo }}
+        </p>
+
+        <p>
+            Teléfono: {{ solicitud.telefono }}
+        </p>
+
+        <p>
+            Objeto ID: #{{ solicitud.objeto_id }}
+        </p>
+
+        <p>
+            Recogida:
+            {{ solicitud.fecha_recogida }}
+            a las
+            {{ solicitud.hora_recogida }}
+        </p>
+
+    </div>
+
+
+    <div class="request-actions">
+
+        {% if solicitud.estado == "Pendiente" %}
+
+            <span class="status status-requested">
+                Pendiente
+            </span>
+
+            <div class="request-buttons">
+
+                <a
+                    href="{{ url_for('entregar_solicitud', id=solicitud.id) }}"
+                    class="btn btn-primary btn-small"
+                >
+                    Marcar entregado
+                </a>
+
+                <a
+                    href="{{ url_for('rechazar_solicitud', id=solicitud.id) }}"
+                    class="btn btn-danger btn-small"
+                >
+                    Rechazar
+                </a>
+
+            </div>
+
+        {% elif solicitud.estado == "Entregada" %}
+
+            <span class="status status-delivered">
+                Entregada
+            </span>
+
+        {% elif solicitud.estado == "Rechazada" %}
+
+            <span class="status status-rejected">
+                Rechazada
+            </span>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+                                {% if solicitud.estado == "Pendiente" %}
+
+                                    <span class="status status-requested">
+                                        Pendiente
+                                    </span>
+
+                                {% elif solicitud.estado == "Aprobada" %}
+
+                                    <span class="status status-available">
+                                        Aprobada
+                                    </span>
+
+                                {% elif solicitud.estado == "Rechazada" %}
+
+                                    <span class="status status-delivered">
+                                        Rechazada
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        No hay solicitudes
+                    </h3>
+
+                    <p>
+                        Las solicitudes realizadas por los estudiantes
+                        aparecerán aquí.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+
+    <script
+        src="{{ url_for('static', filename='js/scripts.js') }}"
+    ></script>
+
+</body>
+
+</html>

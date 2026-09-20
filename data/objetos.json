@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "nombre": "esmeralda",
+        "categoria": "Electrónicos",
+        "fecha": "2026-09-19",
+        "hora": "22:52",
+        "lugar": "Edificio A",
+        "descripcion": "alta, gorda pelo color",
+        "imagen": "uploads/ce427258793847c595692f8e6873707b_WhatsApp_Image_2026-09-11_at_12.13.42_PM.jpeg",
+        "estado": "Disponible",
+        "fecha_entrega": ""
+    }
+]
