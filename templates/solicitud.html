@@ -12,20 +12,6 @@
 
     <title>Solicitar recuperación | UAM</title>
 
-    {% if errores %}
-
-<div class="message error">
-
-    {% for error in errores %}
-
-        <p>{{ error }}</p>
-
-    {% endfor %}
-
-</div>
-
-{% endif %}
-
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/imagenes.css') }}"
@@ -44,6 +30,7 @@
             </div>
 
             <div>
+
                 <strong>
                     Objetos Perdidos
                 </strong>
@@ -51,6 +38,7 @@
                 <span>
                     Universidad Americana
                 </span>
+
             </div>
 
         </div>
@@ -157,12 +145,10 @@
 
             </div>
 
-
-            <form
-                action="{{ url_for('solicitar', id=objeto.id) }}"
-                method="POST"
-                class="form-grid"
-            >
+                <form
+                    action="{{ url_for('solicitar', id=objeto.id) }}"
+                    method="POST"
+                >
 
                 <div class="form-group full-width">
 
@@ -175,17 +161,24 @@
                         id="nombre"
                         name="nombre"
                         placeholder="Ingresa tu nombre completo"
-                        required
                     >
+
+                    {% if error_nombre %}
+
+                        <span class="form-error">
+                            {{ error_nombre }}
+                        </span>
+
+                    {% endif %}
 
                 </div>
 
 
-                
-                        
                 <div class="form-group">
 
-                    <label for="cif">CIF</label>
+                    <label for="cif">
+                        CIF
+                    </label>
 
                     <input
                         type="text"
@@ -195,18 +188,15 @@
                         minlength="8"
                         inputmode="numeric"
                         pattern="[0-9]{8}"
-                        required
                     >
 
                     {% if error_cif %}
+
                         <span class="form-error">
                             {{ error_cif }}
                         </span>
+
                     {% endif %}
-
-                </div>
-
-            </form>
 
                 </div>
 
@@ -222,15 +212,24 @@
                         id="correo"
                         name="correo"
                         placeholder="correo@ejemplo.com"
-                        required
                     >
+
+                    {% if error_correo %}
+
+                        <span class="form-error">
+                            {{ error_correo }}
+                        </span>
+
+                    {% endif %}
 
                 </div>
 
 
                 <div class="form-group">
 
-                    <label for="telefono">Teléfono</label>
+                    <label for="telefono">
+                        Teléfono
+                    </label>
 
                     <input
                         type="text"
@@ -240,24 +239,18 @@
                         minlength="8"
                         inputmode="numeric"
                         pattern="[0-9]{8}"
-                        required
                     >
 
                     {% if error_telefono %}
+
                         <span class="form-error">
                             {{ error_telefono }}
                         </span>
+
                     {% endif %}
 
                 </div>
 
-                {% if error_correo %}
-                    <span class="form-error">
-                        {{ error_correo }}
-                    </span>
-                {% endif %}
-
-            </div>
 
                 <div class="form-group">
 
@@ -269,8 +262,17 @@
                         type="date"
                         id="fecha_recogida"
                         name="fecha_recogida"
-                        required
+                        min="{{ hoy }}"
+>
                     >
+
+                    {% if error_fecha %}
+
+                        <span class="form-error">
+                            {{ error_fecha }}
+                        </span>
+
+                    {% endif %}
 
                 </div>
 
@@ -285,8 +287,15 @@
                         type="time"
                         id="hora_recogida"
                         name="hora_recogida"
-                        required
                     >
+
+                    {% if error_hora %}
+
+                        <span class="form-error">
+                            {{ error_hora }}
+                        </span>
+
+                    {% endif %}
 
                 </div>
 
@@ -296,7 +305,7 @@
                     <input
                         type="checkbox"
                         id="confirmacion"
-                        required
+                        name="confirmacion"
                     >
 
                     <label for="confirmacion">

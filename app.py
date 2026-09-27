@@ -5,10 +5,11 @@ import re
 import os
 import uuid
 from datetime import datetime, date, timedelta
+import sqlite3
 
 
 # =========================================================
-# CONFIGURACIÓN DE FLASK
+              # CONFIGURACIÓN DE FLASK
 # =========================================================
 
 app = Flask(__name__)
@@ -359,12 +360,13 @@ def admin():
 # =========================================================
 
 
-
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar():
 
     if not usuario_autenticado():
         return redirect(url_for("login"))
+
+    hoy = date.today().isoformat()
 
     if request.method == "POST":
 
@@ -380,8 +382,9 @@ def registrar():
         if not nombre or not categoria or not fecha or not hora or not lugar or not descripcion:
             return render_template(
                 "registrar.html",
-                error="Todos los campos obligatorios deben estar completos."
-        )
+                error="Todos los campos obligatorios deben estar completos.",
+                hoy=hoy
+            )
 
         try:
             fecha_objeto = datetime.strptime(
@@ -395,68 +398,64 @@ def registrar():
             )
 
         except ValueError:
-         return render_template(
-            "registrar.html",
-            error="La fecha o la hora no tienen un formato válido."
-        )
-        if fecha_objeto > date.today():
-            return render_template(
-            "registrar.html",
-            error="La fecha de hallazgo no puede ser futura."
-        )
-
-
-    imagen = request.files.get("imagen")
-    nombre_imagen = ""
-
-    if imagen and imagen.filename:
-
-        if not archivo_permitido(imagen.filename):
             return render_template(
                 "registrar.html",
-                error="El archivo seleccionado no es una imagen válida. Usa JPG, PNG o WEBP."
+                error="La fecha o la hora no tienen un formato válido.",
+                hoy=hoy
             )
 
-        nombre_seguro = secure_filename(imagen.filename)
-        nombre_unico = f"{uuid.uuid4().hex}_{nombre_seguro}"
+        if fecha_objeto > date.today():
+            return render_template(
+                "registrar.html",
+                error="La fecha de hallazgo no puede ser futura.",
+                hoy=hoy
+            )
 
-        ruta_imagen = os.path.join(
-            UPLOAD_FOLDER,
-            nombre_unico
-        )
+        imagen = request.files.get("imagen")
+        nombre_imagen = ""
 
-        imagen.save(ruta_imagen)
-        nombre_imagen = f"uploads/{nombre_unico}"
+        if imagen and imagen.filename:
+
+            if not archivo_permitido(imagen.filename):
+                return render_template(
+                    "registrar.html",
+                    error="El archivo seleccionado no es una imagen válida. Usa JPG, PNG o WEBP.",
+                    hoy=hoy
+                )
+
+            nombre_seguro = secure_filename(imagen.filename)
+            nombre_unico = f"{uuid.uuid4().hex}_{nombre_seguro}"
+
+            ruta_imagen = os.path.join(
+                UPLOAD_FOLDER,
+                nombre_unico
+            )
+
+            imagen.save(ruta_imagen)
+            nombre_imagen = f"uploads/{nombre_unico}"
 
         nuevo_objeto = {
 
             "id": obtener_siguiente_id(objetos),
 
-            "nombre":
-                request.form.get("nombre", "").strip(),
+            "nombre": nombre,
 
-            "categoria":
-                request.form.get("categoria", "").strip(),
+            "categoria": categoria,
 
-            "fecha":
-                request.form.get("fecha", "").strip(),
+            "fecha": fecha,
 
-            "hora":
-                request.form.get("hora", "").strip(),
+            "hora": hora,
 
-            "lugar":
-                request.form.get("lugar", "").strip(),
+            "lugar": lugar,
 
-            "descripcion":
-                request.form.get("descripcion", "").strip(),
+            "descripcion": descripcion,
 
             "imagen": nombre_imagen,
 
-            "estado":
-                request.form.get(
-                    "estado",
-                    "Disponible"
-                ).strip(),
+            "estado": request.form.get(
+                "estado",
+                "Disponible"
+            ).strip(),
 
             "fecha_entrega": ""
         }
@@ -467,7 +466,11 @@ def registrar():
 
         return redirect(url_for("admin"))
 
-    return render_template("registrar.html")
+    return render_template(
+        "registrar.html",
+        hoy=hoy
+    )
+
 
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
@@ -601,20 +604,18 @@ def solicitar(id):
     for objeto_actual in objetos:
 
         if objeto_actual.get("id") == id:
-
             objeto = objeto_actual
-
             break
 
     if objeto is None:
-
         return redirect(url_for("buscar"))
 
     # No permitir solicitudes sobre objetos
     # que ya no están disponibles.
     if objeto.get("estado") != "Disponible":
-
         return redirect(url_for("buscar"))
+
+    hoy = date.today().isoformat()
 
     if request.method == "POST":
 
@@ -648,11 +649,17 @@ def solicitar(id):
             ""
         ).strip()
 
-        error_cif = ""
+        confirmacion = request.form.get(
+            "confirmacion"
+        )
 
-        error_telefono = ""
+        errores = []
 
-        error_correo = ""
+        # Validar nombre
+        if not nombre:
+            errores.append(
+                "El nombre completo es obligatorio."
+            )
 
         # Validar CIF
         if (
@@ -660,9 +667,8 @@ def solicitar(id):
             or not cif.isascii()
             or not cif.isdigit()
         ):
-
-            error_cif = (
-                "El CIF debe tener exactamente 8 números."
+            errores.append(
+                "El CIF debe tener exactamente 8 números, sin espacios ni signos."
             )
 
         # Validar teléfono
@@ -671,30 +677,70 @@ def solicitar(id):
             or not telefono.isascii()
             or not telefono.isdigit()
         ):
+            errores.append(
+                "El teléfono debe tener exactamente 8 números, sin espacios ni signos."
+            )
 
         # Validar correo
-            if not re.fullmatch(
+        if not re.fullmatch(
             r"[^@\s]+@[^@\s]+\.[^@\s]+",
-    correo
-):
+            correo
+        ):
+            errores.append(
+                "Ingresa un correo electrónico válido."
+            )
 
-                error_correo = (
-        "Ingresa un correo electrónico válido."
-    )
+        # Validar fecha de recogida
+        if not fecha_recogida:
+            errores.append(
+                "La fecha para recoger el objeto es obligatoria."
+            )
+        else:
+            try:
+                fecha_recogida_objeto = datetime.strptime(
+                    fecha_recogida,
+                    "%Y-%m-%d"
+                ).date()
 
-            error_telefono = (
-                "El teléfono debe tener exactamente 8 números."
+                if fecha_recogida_objeto < date.today():
+                    errores.append(
+                        "La fecha para recoger el objeto no puede ser anterior a hoy."
+                    )
+
+            except ValueError:
+                errores.append(
+                    "La fecha para recoger no tiene un formato válido."
+                )
+
+        # Validar hora de recogida
+        if not hora_recogida:
+            errores.append(
+                "La hora para recoger el objeto es obligatoria."
+            )
+        else:
+            try:
+                datetime.strptime(
+                    hora_recogida,
+                    "%H:%M"
+                )
+            except ValueError:
+                errores.append(
+                    "La hora para recoger no tiene un formato válido."
+                )
+
+        # Validar confirmación
+        if confirmacion != "on":
+            errores.append(
+                "Debes confirmar que la información proporcionada es correcta."
             )
 
         # Si existe algún error, volver al formulario
-        if error_cif or error_telefono or error_correo:
-
+        if errores:
             return render_template(
                 "solicitud.html",
                 objeto=objeto,
-                error_cif=error_cif,
-                error_telefono=error_telefono,
-                error_correo=error_correo
+                errores=errores,
+                hoy=hoy
             )
 
         solicitudes = cargar_solicitudes()
@@ -729,7 +775,6 @@ def solicitar(id):
 
             "fecha_solicitud":
                 date.today().isoformat()
-
         }
 
         solicitudes.append(nueva_solicitud)
@@ -746,7 +791,8 @@ def solicitar(id):
 
     return render_template(
         "solicitud.html",
-        objeto=objeto
+        objeto=objeto,
+        hoy=hoy
     )
 
 # EJECUCIÓN DEL SERVIDOR

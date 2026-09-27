@@ -1,13 +1,25 @@
 [
     {
         "id": 1,
-        "nombre": "esmeralda",
+        "nombre": "Esmeralda flowers",
         "categoria": "Electrónicos",
-        "fecha": "2026-09-19",
-        "hora": "22:52",
+        "fecha": "2025-12-31",
+        "hora": "12:00",
         "lugar": "Edificio A",
-        "descripcion": "alta, gorda pelo color",
-        "imagen": "uploads/ce427258793847c595692f8e6873707b_WhatsApp_Image_2026-09-11_at_12.13.42_PM.jpeg",
+        "descripcion": "Chica con figura masculina, 173 cm de alto y 73 kilos de peso, pelo de colores, tatuaje distintivo en el cuello",
+        "imagen": "uploads/2ec5f8d0af3e46d19c101dca95ea6d87_WhatsApp_Image_2026-09-11_at_12.13.42_PM.jpeg",
+        "estado": "Disponible",
+        "fecha_entrega": ""
+    },
+    {
+        "id": 2,
+        "nombre": "Avion",
+        "categoria": "Otros",
+        "fecha": "2001-11-09",
+        "hora": "18:07",
+        "lugar": "Edificio C",
+        "descripcion": "Se perdió un avion en las instalaciones del edificio C",
+        "imagen": "uploads/5959bbdaef2d407c85fb0217ddc9a058_Captura_de_pantalla_2026-09-23_115725.png",
         "estado": "Disponible",
         "fecha_entrega": ""
     }
