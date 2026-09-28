@@ -8,9 +8,7 @@ from datetime import datetime, date, timedelta
 import sqlite3
 
 
-# =========================================================
               # CONFIGURACIÓN DE FLASK
-# =========================================================
 
 app = Flask(__name__)
 
@@ -23,9 +21,8 @@ app.secret_key = "clave-proyecto-objetos-perdidos"
 #     eliminar_objetos_vencidos()
 
 
-# =========================================================
-# RUTAS DE LOS ARCHIVOS JSON
-# =========================================================
+
+# RUTAS DE LOS ARCHIVOS JS
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -46,9 +43,9 @@ def archivo_permitido(nombre):
         and nombre.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
     )
 
-# =========================================================
+
 # FUNCIONES PARA TRABAJAR CON JSON
-# =========================================================
+
 
 def cargar_json(ruta):
     """
@@ -80,9 +77,9 @@ def guardar_json(ruta, datos):
         )
 
 
-# =========================================================
+
 # FUNCIONES PARA OBJETOS
-# =========================================================
+
 
 def cargar_objetos():
     return cargar_json(OBJETOS_FILE)
@@ -126,9 +123,9 @@ def eliminar_objetos_vencidos():
     guardar_objetos(objetos_actualizados)
 
 
-# =========================================================
+
 # FUNCIONES PARA SOLICITUDES
-# =========================================================
+
 
 def cargar_solicitudes():
     return cargar_json(SOLICITUDES_FILE)
@@ -138,17 +135,16 @@ def guardar_solicitudes(solicitudes):
     guardar_json(SOLICITUDES_FILE, solicitudes)
 
 
-# =========================================================
+
 # FUNCIONES PARA USUARIOS
-# =========================================================
+
 
 def cargar_usuarios():
     return cargar_json(USUARIOS_FILE)
 
 
-# =========================================================
+
 # GENERACIÓN DE IDs
-# =========================================================
 
 def obtener_siguiente_id(objetos):
 
@@ -171,18 +167,17 @@ def obtener_siguiente_id(objetos):
     return siguiente_id
 
 
-# =========================================================
+
 # PROTECCIÓN DEL PANEL ADMINISTRATIVO
-# =========================================================
+
 
 def usuario_autenticado():
 
     return session.get("usuario") is not None
 
 
-# =========================================================
 # PÁGINA PRINCIPAL
-# =========================================================
+
 
 @app.route("/")
 def inicio():
@@ -190,9 +185,8 @@ def inicio():
     return render_template("index.html")
 
 
-# =========================================================
+
 # BÚSQUEDA DE OBJETOS
-# =========================================================
 
 @app.route("/buscar")
 def buscar():
@@ -234,9 +228,8 @@ def buscar():
     )
 
 
-# =========================================================
 # LOGIN
-# =========================================================
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -285,9 +278,9 @@ def login():
     )
 
 
-# =========================================================
+
 # CERRAR SESIÓN
-# =========================================================
+
 
 @app.route("/logout")
 def logout():
@@ -297,9 +290,7 @@ def logout():
     return redirect(url_for("inicio"))
 
 
-# =========================================================
-# PANEL ADMINISTRATIVO
-# =========================================================
+# PANEL ADMINISTRATIVOlol
 
 @app.route("/admin")
 def admin():
